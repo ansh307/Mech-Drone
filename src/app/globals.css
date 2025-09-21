@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+
+@theme {
+  --font-lausanne-200: var(--font-lausanne-200), sans-serif;
+  --font-lausanne-300: var(--font-lausanne-300), sans-serif;
+  --font-lausanne-400: var(--font-lausanne-400), sans-serif;
+  --font-gunsan: var(--font-gunsan), sans-serif;
+}
