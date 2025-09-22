@@ -8,7 +8,7 @@ export default function Home() {
     <div className="">
       <Hero />
       <SecondSection />
-      <div className="h-screen bg-white">
+      <div className="h-screen bg-blue-500">
         <h1 className="font-lausanne-200 text-5xl">
           This is a headline with Lausanne 200.
         </h1>

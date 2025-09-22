@@ -94,9 +94,6 @@ const SecondSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // handle toggle click
-  const handleToggle = () => setToggle((prev) => !prev);
-
   return (
     <div ref={sectionRef} className="h-screen relative overflow-hidden">
       {/* Expanding circle */}
@@ -126,27 +123,31 @@ const SecondSection = () => {
       {maskActive && (
         <MaskContainer
           toggle={toggle}
-          className="h-screen font-lausanne-400  z-50"
+          className=" font-lausanne-400  z-50"
           revealText={
             toggle ? (
-              <p className="mx-auto max-w-4xl text-center text-4xl font-bold text-slate-800 dark:text-white">
-                Mech Drone was discovered drifting near the{" "}
-                <span className="text-blue-500">rings of Saturn</span>, an
-                interstellar{" "}
-                <span className="text-blue-500">robotic explorer</span> with a
-                spark of cosmic mischief. Equipped with playful stunts and
-                galactic tricks, it turns every moment into an <br />
-                <span className="text-blue-500">adventure!</span>
-              </p>
+              <div className="">
+                <p className="mx-auto max-w-4xl text-center text-4xl font-bold text-black dark:text-white">
+                  Mech Drone was discovered drifting near the{" "}
+                  <span className="text-blue-500">rings of Saturn</span>, an
+                  interstellar{" "}
+                  <span className="text-blue-500">robotic explorer</span> with a
+                  spark of cosmic mischief. Equipped with playful stunts and
+                  galactic tricks, it turns every moment into an <br />
+                  <span className="text-blue-500">adventure!</span>
+                </p>
+              </div>
             ) : (
-              <p className="mx-auto max-w-4xl text-center text-4xl font-bold text-black">
-                Mech Drone ventures across galaxies, performing{" "}
-                <span className="text-blue-500">cosmic stunts</span> and
-                engaging in{" "}
-                <span className="text-blue-500">stellar tricks</span>. Fun,
-                friendly, and endlessly curious, it sparks joy across the
-                universe!
-              </p>
+              <div className="">
+                <p className="mx-auto max-w-4xl text-center text-4xl font-bold text-black">
+                  Mech Drone ventures across galaxies, performing{" "}
+                  <span className="text-blue-500">cosmic stunts</span> and
+                  engaging in{" "}
+                  <span className="text-blue-500">stellar tricks</span>. Fun,
+                  friendly, and endlessly curious, it sparks joy across the
+                  universe!
+                </p>
+              </div>
             )
           }
         >

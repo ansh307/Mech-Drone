@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import Particles from "./Particles";
 
 export const MaskContainer = ({
   children,
@@ -74,6 +75,21 @@ export const MaskContainer = ({
             backgroundColor: toggle ? "white" : "black",
           }}
         />
+        {/* Particles layer */}
+        {!toggle && (
+          <div className="absolute inset-0 z-10">
+            <Particles
+              particleColors={["#ffffff", "#ffffff"]}
+              particleCount={200}
+              particleSpread={10}
+              speed={0.1}
+              particleBaseSize={100}
+              moveParticlesOnHover={true}
+              alphaParticles={false}
+              disableRotation={false}
+            />
+          </div>
+        )}
         <div
           onMouseEnter={() => {
             setIsHovered(true);
@@ -89,6 +105,20 @@ export const MaskContainer = ({
 
       <div className="flex h-full w-full items-center justify-center ">
         {revealText}
+        {toggle && (
+          <div className="absolute inset-0 -z-10">
+            <Particles
+              particleColors={["#ffffff", "#ffffff"]}
+              particleCount={200}
+              particleSpread={10}
+              speed={0.1}
+              particleBaseSize={80}
+              moveParticlesOnHover={true}
+              alphaParticles={false}
+              disableRotation={false}
+            />
+          </div>
+        )}
       </div>
     </motion.div>
   );
