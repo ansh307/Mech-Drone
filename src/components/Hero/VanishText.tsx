@@ -16,6 +16,13 @@ export default function VanishText() {
     return "bold 13rem Gunsan, Arial, sans-serif"; // xl:text-[13rem]
   };
 
+  const getFontPxSize = () => {
+    const fontStr = getResponsiveFont();
+    const remMatch = fontStr.match(/(\d+(?:\.\d+)?)rem/);
+    const remSize = remMatch ? parseFloat(remMatch[1]) : 100;
+    return remSize * 16; // Approximate 1rem = 16px (standard assumption for canvas/CSS consistency)
+  };
+
   const vanish = () => {
     if (!visible || fading) return;
 
@@ -38,35 +45,62 @@ export default function VanishText() {
 
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
+    // Get text metrics for bounding box
+    const textWidth = ctx.measureText(text).width;
+    const approxFontPx = getFontPxSize();
+    const halfHeight = approxFontPx * 0.6; // Approximate half-height for single-line text (adjust if needed)
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const left = Math.max(0, centerX - textWidth / 2 - 20); // Padding for bounds
+    const right = Math.min(canvas.width, centerX + textWidth / 2 + 20);
+    const top = Math.max(0, centerY - halfHeight - 20);
+    const bottom = Math.min(canvas.height, centerY + halfHeight + 20);
+
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
 
+    const step = 5; // Increased step size to reduce particle count (trade-off: fewer but larger particles)
     let particles: {
       x: number;
       y: number;
-      r: number;
+      rad: number;
       vx: number;
       vy: number;
       alpha: number;
-      color: string;
+      colorR: number;
+      colorG: number;
+      colorB: number;
     }[] = [];
 
-    for (let y = 0; y < canvas.height; y += 3) {
-      for (let x = 0; x < canvas.width; x += 3) {
-        const idx = (y * canvas.width + x) * 4;
+    // Limit loop to text bounding box only (major perf win: avoids full-screen scan)
+    for (let y = top; y < bottom; y += step) {
+      for (let x = left; x < right; x += step) {
+        const idx = (Math.floor(y) * canvas.width + Math.floor(x)) * 4;
         const alpha = pixels[idx + 3];
         if (alpha > 0) {
+          // Threshold can be raised to >128 for stricter text pixels
+          const r = pixels[idx];
+          const g = pixels[idx + 1];
+          const b = pixels[idx + 2];
           particles.push({
-            x,
-            y,
-            r: 2,
-            vx: (Math.random() - 0.5) * 1.4,
-            vy: (Math.random() - 0.5) * 1.4,
+            x: Math.floor(x),
+            y: Math.floor(y),
+            rad: Math.random() * 1.5 + 0.5, // Smaller/variable radius (0.5-2) for perf
+            vx: (Math.random() - 0.5) * 1.5, // Slightly reduced velocity
+            vy: (Math.random() - 0.5) * 1.5,
             alpha: 1,
-            color: `rgb(${pixels[idx]},${pixels[idx + 1]},${pixels[idx + 2]})`,
+            colorR: r,
+            colorG: g,
+            colorB: b,
           });
         }
       }
+    }
+
+    // Optional: Cap max particles to prevent extreme cases (e.g., very large screens)
+    if (particles.length > 1500) {
+      particles = particles.slice(0, 1500);
     }
 
     setFading(true);
@@ -76,20 +110,17 @@ export default function VanishText() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.color.replace("rgb(", "").replace(")", "")},${
-          p.alpha
-        })`;
+        ctx.arc(p.x, p.y, p.rad, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${p.colorR}, ${p.colorG}, ${p.colorB}, ${p.alpha})`;
         ctx.fill();
 
         p.x += p.vx;
         p.y += p.vy;
-
-        p.r *= 0.985;
-        p.alpha *= 0.96;
+        p.rad *= 0.99; // Slightly slower radius decay for smoother feel
+        p.alpha *= 0.97; // Slightly slower alpha decay
       });
 
-      particles = particles.filter((p) => p.alpha > 0.05);
+      particles = particles.filter((p) => p.alpha > 0.05 && p.rad > 0.1);
       if (particles.length > 0) requestAnimationFrame(animate);
     };
     animate();

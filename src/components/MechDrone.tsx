@@ -2,7 +2,6 @@ import * as THREE from "three";
 import React, { JSX, useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import GUI from "lil-gui";
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 
@@ -32,8 +31,8 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = "Take 001";
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
+// type ActionName = "Take 001";
+// type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
 export function MechDrone(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>(null);
@@ -47,21 +46,6 @@ export function MechDrone(props: JSX.IntrinsicElements["group"]) {
       actions["Take 001"].reset().play();
     }
   }, [actions]);
-
-  // useEffect(() => {
-  //   // Create GUI
-  //   const gui = new GUI();
-  //   const materialFolder = gui.addFolder("Robot Material");
-
-  //   // Add live controls
-  //   materialFolder.add(materials.Robot, "roughness", 0, 1, 0.01);
-  //   materialFolder.add(materials.Robot, "metalness", 0, 1, 0.01);
-  //   materialFolder.addColor(materials.Robot, "color");
-
-  //   materialFolder.open();
-
-  //   return () => gui.destroy(); // Clean up on unmount
-  // }, [materials.Robot]);
 
   // Load Robot textures
   const robotTextures = useTexture({
@@ -120,8 +104,6 @@ export function MechDrone(props: JSX.IntrinsicElements["group"]) {
         Math.sin(state.clock.elapsedTime * 7) * 0.3;
     }
   });
-
-  // console.log(nodes);
 
   return (
     <group ref={group} {...props} dispose={null}>

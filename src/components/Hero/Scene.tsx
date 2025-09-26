@@ -2,11 +2,11 @@
 
 import { OrbitControls, Environment } from "@react-three/drei";
 import { MechDrone } from "@/components/MechDrone";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 
-export default function MechDroneScene() {
+export default function Scene() {
   const groupRef = useRef<THREE.Group | null>(null);
 
   // mouse in NDC (-1..1)
@@ -40,7 +40,7 @@ export default function MechDroneScene() {
   // Track smoothed mouse velocity for damping
   const smoothVel = useRef(new THREE.Vector2(0, 0));
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const obj = groupRef.current;
     if (!obj) return;
 
@@ -122,6 +122,9 @@ export default function MechDroneScene() {
       <group ref={groupRef} scale={[120, 120, 120]} position={[0, -50, 0]}>
         <MechDrone />
       </group>
+      {/* <NativeBox args={[1, 1, 1]} scale={[5, 5, 5]}>
+        <meshStandardMaterial attach="material" color={"#720b23"} />
+      </NativeBox> */}
     </group>
   );
 }

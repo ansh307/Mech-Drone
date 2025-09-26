@@ -1,8 +1,18 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import Particles from "./Particles";
+
+interface MaskContainerProps {
+  children?: string | React.ReactNode;
+  revealText?: string | React.ReactNode;
+  size?: number;
+  revealSize?: number;
+  toggle?: boolean;
+  className?: string;
+}
 
 export const MaskContainer = ({
   children,
@@ -11,36 +21,32 @@ export const MaskContainer = ({
   revealSize = 600,
   toggle,
   className,
-}: {
-  children?: string | React.ReactNode;
-  revealText?: string | React.ReactNode;
-  size?: number;
-  revealSize?: number;
-  toggle?: Boolean;
-  className?: string;
-}) => {
+}: MaskContainerProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState<any>({ x: null, y: null });
-  const containerRef = useRef<any>(null);
+  const [mousePosition, setMousePosition] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const updateMousePosition = (e: any) => {
+  const updateMousePosition = (e: MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   useEffect(() => {
-    containerRef.current.addEventListener("mousemove", updateMousePosition);
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.addEventListener("mousemove", updateMousePosition);
+
     return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener(
-          "mousemove",
-          updateMousePosition
-        );
-      }
+      container.removeEventListener("mousemove", updateMousePosition);
     };
   }, []);
-  let maskSize = isHovered ? revealSize : size;
+
+  const maskSize = isHovered ? revealSize : size;
 
   return (
     <motion.div
@@ -54,7 +60,7 @@ export const MaskContainer = ({
       }}
     >
       <motion.div
-        className="absolute flex h-full w-full items-center justify-center  text-6xl [mask-image:url(/mask.svg)] [mask-repeat:no-repeat] [mask-size:40px] "
+        className="absolute flex h-full w-full items-center justify-center text-6xl [mask-image:url(/mask.svg)] [mask-repeat:no-repeat] [mask-size:40px]"
         style={{
           backgroundColor: toggle ? "black" : "white",
         }}
@@ -70,7 +76,7 @@ export const MaskContainer = ({
         }}
       >
         <div
-          className="absolute inset-0 z-0 h-full w-full "
+          className="absolute inset-0 z-0 h-full w-full"
           style={{
             backgroundColor: toggle ? "white" : "black",
           }}
@@ -91,19 +97,15 @@ export const MaskContainer = ({
           </div>
         )}
         <div
-          onMouseEnter={() => {
-            setIsHovered(true);
-          }}
-          onMouseLeave={() => {
-            setIsHovered(false);
-          }}
-          className="relative z-20 mx-auto max-w-4xl text-center text-4xl font-bold "
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="relative z-20 mx-auto max-w-4xl text-center text-4xl font-bold"
         >
           {children}
         </div>
       </motion.div>
 
-      <div className="flex h-full w-full items-center justify-center ">
+      <div className="flex h-full w-full items-center justify-center">
         {revealText}
         {toggle && (
           <div className="absolute inset-0 -z-10">

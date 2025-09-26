@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+
 import { MaskContainer } from "@/components/ui/MaskContainer";
 
 const SecondSection = () => {
@@ -168,7 +169,7 @@ const SecondSection = () => {
               <>
                 Meet Mech Drone — the interstellar{" "}
                 <span className="text-blue-500">robotic drone</span> from
-                Saturn's rings, performing{" "}
+                Saturn&apos;s rings, performing{" "}
                 <span className="text-blue-500">galactic stunts</span> and
                 spreading fun everywhere.
               </>

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import MechDroneScene from "./HeroScene";
-import { View } from "@react-three/drei";
-import localFont from "next/font/local";
+import React, { useEffect } from "react";
+import Scene from "./Scene";
+import { PerspectiveCamera, View } from "@react-three/drei";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import VanishText from "./VanishText";
@@ -63,8 +62,10 @@ const Hero = () => {
 
   return (
     <div className="h-screen bg-blue-500 relative overflow-hidden">
-      <View className="hero-scene sticky top-20 z-10 h-screen">
-        <MechDroneScene />
+      <View className="hero-scene sticky top-20 z-50 h-screen ">
+        <Scene />
+        <ambientLight intensity={0.8} />
+        <PerspectiveCamera makeDefault position={[0, 30, -100]} fov={60} />
       </View>
 
       {/* Background texts */}
