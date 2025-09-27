@@ -166,8 +166,6 @@ export default function VanishText() {
       topDistanceFromHiddenGalaxy
     );
 
-    console.log("From VanishText", -initialY);
-
     // Drop animation
     dropTl.to("#vanish-e", {
       y: -initialY,

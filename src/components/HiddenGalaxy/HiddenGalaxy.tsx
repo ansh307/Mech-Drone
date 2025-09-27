@@ -59,8 +59,6 @@ const HiddenGalaxy = () => {
       },
     });
 
-    console.log("From Hidden Galaxy", -initialY);
-
     // Drop animation
     dropTl.fromTo(
       letter,

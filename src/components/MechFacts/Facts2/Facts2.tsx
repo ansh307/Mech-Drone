@@ -9,18 +9,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Facts2 = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<{ changeTexture: () => void }>(null);
+
+  // const [textureIndex, setTextureIndex] = useState(0);
+
+  // const handleTextureChange = () => {
+  //   setTextureIndex((prev) => (prev === 3 ? 0 : prev + 1));
+  // };
+
   return (
     <div
       ref={containerRef}
-      className="flex flex-col md:flex-row-reverse h-full bg-blue-500 text-white % z-10 ml-16"
+      className="flex flex-col md:flex-row-reverse h-full bg-blue-500 text-white % z-10 ml-16 relative"
     >
+      <button
+        className="mx-4 px-2 py-2 absolute top-10 right-10 z-50 font-lausanne-300 cursor-pointer bg-transparent text-white hover:-translate-y-1 hover:scale-105 transition-all duration-300 active:scale-90 active:translate-y-2 active:animate-bounce"
+        onClick={() => sceneRef.current?.changeTexture()}
+      >
+        Magic
+      </button>
+
       {/* Model Section (Right on desktop) */}
       <div className="w-full md:w-2/5 flex justify-center items-center p-4">
         <div className=" relative w-full h-64 md:h-full flex justify-center items-center">
           <View className=" w-full h-full " style={{ pointerEvents: "auto" }}>
-            <Scene containerRef={containerRef} />
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} />
+            <Scene containerRef={containerRef} ref={sceneRef} />
             <PerspectiveCamera position={[0, 0, 10]} fov={60} />
           </View>
         </div>

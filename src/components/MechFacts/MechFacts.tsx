@@ -18,40 +18,45 @@ const MechFacts = () => {
     if (!section || !container) return;
 
     const panels = gsap.utils.toArray<HTMLElement>(".panel");
+    const totalPanels = panels.length;
 
-    // 1️⃣ Horizontal scroll tween
-    const scrollTween = gsap.to(panels, {
-      xPercent: -100 * (panels.length - 1),
+    // Horizontal scroll with momentum-like snap
+    const horizontalTween = gsap.to(panels, {
+      xPercent: -100 * (totalPanels - 1),
       ease: "none",
       scrollTrigger: {
         trigger: section,
         pin: true,
-        scrub: 1,
-        snap: 1 / (panels.length - 1),
+        scrub: 0.5, // allows slight dragging
         end: () => "+=" + container.offsetWidth,
         invalidateOnRefresh: true,
         anticipatePin: 1,
+        snap: {
+          snapTo: 1 / (totalPanels - 1), // snap to each panel
+          duration: { min: 0.6, max: 1 }, // glide duration
+          ease: "power2.out",
+        },
       },
     });
 
-    // 2️⃣ Panel animations (text/images) using containerAnimation
+    // Animate content within each panel
     panels.forEach((panel) => {
       const title = panel.querySelector(".fact-title");
       const subs = panel.querySelectorAll(".facts-subs li");
 
-      //   gsap.set([title, subs], { opacity: 0, x: -30 }); // initial state
-      gsap.set(title, { opacity: 0, y: 50 }); // initial state
-      gsap.set(subs, { opacity: 0, y: 30 }); // initial state
+      gsap.set(title, { opacity: 0, y: 50 });
+      gsap.set(subs, { opacity: 0, y: 30 });
 
       if (title) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: panel,
             start: "left 20%",
-            end: "right right",
-            scrub: 1,
-            containerAnimation: scrollTween,
-            // markers: true, // uncomment for debugging
+            toggleActions: "play none none reverse", // play once when trigger hits
+            // end: "right right",
+            // scrub: 1,
+            containerAnimation: horizontalTween,
+            // markers: true,
           },
         });
 
@@ -62,20 +67,14 @@ const MechFacts = () => {
           ease: "power3.out",
         }).to(
           subs,
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.5,
-            duration: 0.6,
-            ease: "power3.out",
-          },
+          { y: 0, opacity: 1, stagger: 0.5, duration: 0.6, ease: "power3.out" },
           "-=0.4"
         );
       }
     });
 
-    // 3️⃣ Cleanup
     return () => {
+      horizontalTween.kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
@@ -83,19 +82,15 @@ const MechFacts = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen overflow-hidden w-[99.9%] z- bg-blue-500"
+      className="relative h-screen overflow-hidden w-full bg-blue-500"
     >
-      <div
-        ref={containerRef}
-        className="flex h-full w-max" // width adapts to number of panels
-      >
-        <div className="panel w-screen h-full ">
+      <div ref={containerRef} className="flex h-full w-max">
+        <div className="panel w-screen h-full">
           <Facts1 />
         </div>
         <div className="panel w-screen h-full">
           <Facts2 />
         </div>
-        {/* you can keep adding Facts3, Facts4, etc. */}
       </div>
     </section>
   );

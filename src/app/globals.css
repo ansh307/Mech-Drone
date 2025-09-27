@@ -6,4 +6,43 @@
   --font-lausanne-300: var(--font-lausanne-300), sans-serif;
   --font-lausanne-400: var(--font-lausanne-400), sans-serif;
   --font-gunsan: var(--font-gunsan), sans-serif;
+
+
+  --animate-shine: shine 5s linear infinite;
+
+  --animate-bounce: bounce 0.3s ease-in-out;
+
+  @keyframes shine {
+    0% {
+      background-position: 100%
+    }
+
+    ,
+    100% {
+      background-position: -100%
+    }
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: scale(1) translateY(0);
+    }
+
+    30% {
+      transform: scale(1.1) translateY(-4px) rotate(8deg);
+    }
+
+    50% {
+      transform: scale(0.95) translateY(2px) rotate(-8deg);
+    }
+
+    70% {
+      transform: scale(1.05) translateY(-1px) rotate(4deg);
+    }
+
+    100% {
+      transform: scale(1) translateY(0) rotate(0deg);
+    }
+  }
+
 }
