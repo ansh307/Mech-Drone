@@ -21,37 +21,30 @@ const HiddenGalaxy = () => {
     const circle = circleRef.current;
     if (!section || !letter || !circle) return;
 
-    const vanishEl = document.querySelector("#vanish-e");
-    const HiddenGalaxySection = document.querySelector("#hidden-galaxy");
+    const vanishEl = document.querySelector("#vanish-e") as HTMLDivElement;
+    const HiddenGalaxySection = document.querySelector(
+      "#hidden-galaxy"
+    ) as HTMLDivElement;
     if (!HiddenGalaxySection || !vanishEl) return;
 
-    // Get the offset of the HiddenGalaxySection relative to the viewport
-    const hiddenGalaxyTop = HiddenGalaxySection.getBoundingClientRect().top;
-
+    // Get document-relative positions instead of viewport-relative
+    const hiddenGalaxyTop = HiddenGalaxySection.offsetTop;
+    const vanishElRect = vanishEl.getBoundingClientRect();
+    const vanishElTop = vanishEl.offsetTop;
+    const vanishElHeight = vanishEl.offsetHeight;
     // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
-    const topDistanceFromHiddenGalaxy =
-      (hiddenGalaxyTop + window.innerHeight * 0.2) / 10;
-
-    const rect = vanishEl.getBoundingClientRect();
-
-    // // Get document-relative positions instead of viewport-relative
-    // const hiddenGalaxyTop = hiddenGalaxySection.offsetTop;
-    // const vanishElRect = vanishEl.getBoundingClientRect();
-    // const vanishElTop = vanishEl.offsetTop;
-    // const vanishElHeight = vanishEl.offsetHeight;
-    // // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
-    // const topDistanceFromHiddenGalaxy = window.innerHeight * 0.2;
-    // // Calculate the initial position relative to the document
-    // const initialY = -(
-    //   vanishElTop +
-    //   vanishElHeight +
-    //   topDistanceFromHiddenGalaxy
-    // );
+    const topDistanceFromHiddenGalaxy = window.innerHeight * 0.2;
+    // Calculate the initial position relative to the document
+    const initialY = -(
+      vanishElTop +
+      vanishElHeight +
+      topDistanceFromHiddenGalaxy
+    );
 
     // Initial position setup
     gsap.set(letter, {
-      x: rect.left,
-      y: -(rect.bottom + topDistanceFromHiddenGalaxy),
+      x: vanishElRect.left,
+      y: -initialY,
       z: 50,
     });
 
@@ -66,15 +59,12 @@ const HiddenGalaxy = () => {
       },
     });
 
-    console.log(
-      "From Hidden Galaxy",
-      -(rect.bottom + topDistanceFromHiddenGalaxy)
-    );
+    console.log("From Hidden Galaxy", -initialY);
 
     // Drop animation
     dropTl.fromTo(
       letter,
-      { y: -(rect.bottom + topDistanceFromHiddenGalaxy), opacity: 0 },
+      { y: initialY, opacity: 0 },
       {
         y: topDistanceFromHiddenGalaxy,
         opacity: 1,
@@ -93,7 +83,7 @@ const HiddenGalaxy = () => {
     // Set circle position based on letter
     dropTl.set(circle, {
       top: letter.offsetTop + letter.offsetHeight / 2,
-      left: rect.left,
+      left: vanishElRect.left,
     });
 
     // Circle expansion

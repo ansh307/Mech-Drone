@@ -147,24 +147,30 @@ export default function VanishText() {
       },
     });
 
-    const vanishEl = document.querySelector("#vanish-e");
-    const HiddenGalaxySection = document.querySelector("#hidden-galaxy");
+    const vanishEl = document.querySelector("#vanish-e") as HTMLDivElement;
+    const HiddenGalaxySection = document.querySelector(
+      "#hidden-galaxy"
+    ) as HTMLDivElement;
     if (!HiddenGalaxySection || !vanishEl) return;
 
-    const rect = vanishEl.getBoundingClientRect();
-
-    // Get the offset of the HiddenGalaxySection relative to the viewport
-    const hiddenGalaxyTop = HiddenGalaxySection.getBoundingClientRect().top;
-
+    const hiddenGalaxyTop = HiddenGalaxySection.offsetTop;
+    const vanishElRect = vanishEl.getBoundingClientRect();
+    const vanishElTop = vanishEl.offsetTop;
+    const vanishElHeight = vanishEl.offsetHeight;
     // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
-    const topDistanceFromHiddenGalaxy =
-      (hiddenGalaxyTop + window.innerHeight * 0.2) / 10;
+    const topDistanceFromHiddenGalaxy = window.innerHeight * 0.2;
+    // Calculate the initial position relative to the document
+    const initialY = -(
+      vanishElTop +
+      vanishElHeight +
+      topDistanceFromHiddenGalaxy
+    );
 
-    console.log("From VanishText", rect.bottom + topDistanceFromHiddenGalaxy);
+    console.log("From VanishText", -initialY);
 
     // Drop animation
     dropTl.to("#vanish-e", {
-      y: rect.bottom + topDistanceFromHiddenGalaxy,
+      y: -initialY,
       opacity: 1,
       duration: 1,
       ease: "power2.out",
@@ -172,7 +178,7 @@ export default function VanishText() {
 
     // Bounce animation
     dropTl.to("#vanish-e", {
-      y: rect.bottom + topDistanceFromHiddenGalaxy + 50,
+      y: -initialY + 50,
       duration: 0.6,
       ease: "bounce.out",
     });
