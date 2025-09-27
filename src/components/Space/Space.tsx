@@ -177,14 +177,15 @@ const Space = () => {
 
         {/* animation 1 */}
         <div
-          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-32 lg:right-32 w-72 "
+          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-32 lg:right-32 w-96 "
           ref={textContainer1Ref}
         >
-          <h2 className="font-lausanne-400 mb-4">Mech Drone</h2>
+          <h2 className="font-lausanne-400 mb-4">File 01: The Beginning</h2>
           <TextType
             text={[
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque adipisicing elit. ",
-              "dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque adipisicing elit.",
+              "No record of its creation exists.",
+              "Some claim it was never engineered, only discovered adrift near Saturn&apos;s rings. As if it had always been waiting.",
+              "Others whisper it had been there for centuries, dormant, waiting for someone to notice.",
             ]}
             typingSpeed={75}
             pauseDuration={1500}
@@ -205,22 +206,24 @@ const Space = () => {
 
         {/* animation 2 */}
         <div
-          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-2/5 lg:right-1/7 w-[27rem] "
+          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-2/5 lg:right-1/7 w-[28rem] "
           style={{ opacity: 0, pointerEvents: "none" }} // start hidden
           ref={textContainer2Ref}
         >
-          <h2 className="font-lausanne-400 mb-4 text-5xl">Mech Drone</h2>
+          <h2 className="font-lausanne-400 mb-4 text-5xl">
+            File 02: The Shell
+          </h2>
           <TextType
             text={[
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque ",
-              "dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque adipis",
+              "Its surface shows unknown metal, no fracture, no sign of assembly.",
+              "A body seamless and impossibly precise—too flawless for human hands. Examiners describe it not as manufactured, but as if it had been grown.",
             ]}
             typingSpeed={75}
             pauseDuration={1500}
             showCursor={true}
             cursorCharacter="▍"
             deletingSpeed={3}
-            className=" text-xl font-lausanne-300 h-24 overflow-hidden"
+            className=" text-base font-lausanne-300 h-20 overflow-hidden"
           />
           <div className="w-full overflow-hidden ">
             <Button
@@ -233,22 +236,25 @@ const Space = () => {
 
         {/* animation 3 */}
         <div
-          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-2/5 lg:left-1/7 w-[27rem]"
+          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-2/5 lg:left-1/7 w-[28rem]"
           style={{ opacity: 0, pointerEvents: "none" }} // start hidden
           ref={textContainer3Ref}
         >
-          <h2 className="font-lausanne-400 mb-4 text-5xl">Mech Drone</h2>
+          <h2 className="font-lausanne-400 mb-4 text-5xl">
+            File 03: The Watcher
+          </h2>
+
           <TextType
             text={[
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque ",
-              "dolor sit amet consectetur adipisicing elit. Nisi soluta illo cumque adipis",
+              "It moves without command, as though guided by something hungry.",
+              "It hovers in the silence, cold and unblinking, watching with an emptiness that chills the soul. Those who encounter it say it does not wait—it stalks, drawn to something ancient, something alive.",
             ]}
             typingSpeed={75}
             pauseDuration={1500}
             showCursor={true}
             cursorCharacter="▍"
             deletingSpeed={3}
-            className=" text-xl font-lausanne-300 h-24 overflow-hidden"
+            className=" text-base font-lausanne-300 h-20 overflow-hidden"
           />
           <div className="w-full overflow-hidden ">
             <Button

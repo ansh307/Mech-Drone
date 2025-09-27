@@ -118,14 +118,6 @@ const Hero = () => {
       </h1>
 
       {/* Main centered text */}
-      {/* <div className="absolute inset-0 flex items-center justify-center z-50">
-        <h1
-          className={` font-bold text-white 
-          text-7xl sm:text-8xl md:text-9xl lg:text-[13rem]`}
-        >
-          Mech Drone
-        </h1>
-      </div> */}
       <div id="vanish-text" className="...">
         <VanishText />
       </div>

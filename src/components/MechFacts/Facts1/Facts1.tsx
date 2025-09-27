@@ -52,7 +52,7 @@ const Facts1 = () => {
   return (
     <div
       ref={sectionRef}
-      className="flex flex-col md:flex-row h-full bg-transparent text-white z-30"
+      className="flex flex-col md:flex-row h-full bg-transparent text-white z-30 mr-16"
     >
       {/* Model Section */}
       <div className="w-full md:w-2/5 flex justify-center items-center p-4">
@@ -69,27 +69,38 @@ const Facts1 = () => {
       {/* Content Section */}
       <div className="w-full md:w-3/5 flex flex-col justify-center p-6 space-y-4">
         <h1 className="initial-fact-title font-lausanne-400 text-3xl md:text-6xl mb-10">
-          Mech drones are friendly
+          Cosmic Explorer Unleashed
         </h1>
         <ul className="flex flex-col gap-8 initial-facts-subs">
           <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-            aliquam autem neque. Ipsum rem alias earum, repellat, in nostrum
-            sunt soluta veritatis omnis ullam sequi cupiditate veniam impedit
-            blanditiis excepturi.
+            Mech Drone was discovered near Saturn&apos;s rings and is built for
+            long-range interstellar exploration. It can navigate harsh
+            environments with high precision sensors.
           </li>
           <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-            aliquam autem neque. Ipsum rem alias earum, repellat, in nostrum
-            sunt soluta veritatis omnis ullam sequi cupiditate veniam impedit
-            blanditiis excepturi.
+            Its propulsion system allows it to perform complex maneuvers in zero
+            gravity. This makes it capable of stunts and precise exploration
+            alike.
           </li>
           <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-            aliquam autem neque. Ipsum rem alias earum, repellat, in nostrum
-            sunt soluta veritatis omnis ullam sequi cupiditate veniam impedit
-            blanditiis excepturi.
+            Mech Drone carries advanced mapping tools to scan and document
+            cosmic structures. It collects data for scientific research while
+            traveling.
           </li>
+          {/* <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
+            Mech Drone once surfed the icy rings of Saturn just for fun —
+            leaving behind a sparkling trail like cosmic graffiti.
+          </li> */}
+          <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
+            Equipped with adaptive AI, it learns from its environment to
+            optimize performance. The drone can react to unexpected obstacles or
+            cosmic events.
+          </li>
+
+          {/* <li className="font-lausanne-200 text-base md:text-lg leading-relaxed">
+            Its favorite trick? Pretending to malfunction, only to burst out in
+            a dazzling stunt a moment later.
+          </li> */}
         </ul>
       </div>
     </div>

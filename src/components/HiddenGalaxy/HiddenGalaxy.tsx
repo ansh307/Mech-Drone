@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MaskContainer } from "@/components/ui/MaskContainer";
 
-const SecondSection = () => {
+gsap.registerPlugin(ScrollTrigger);
+
+const HiddenGalaxy = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const letterRef = useRef<HTMLHeadingElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
@@ -19,84 +21,126 @@ const SecondSection = () => {
     const circle = circleRef.current;
     if (!section || !letter || !circle) return;
 
-    const handleScroll = () => {
-      const vanishEl = document.querySelector("#vanish-text");
-      if (!vanishEl) return;
+    const vanishEl = document.querySelector("#vanish-e");
+    const HiddenGalaxySection = document.querySelector("#hidden-galaxy");
+    if (!HiddenGalaxySection || !vanishEl) return;
 
-      const rect = vanishEl.getBoundingClientRect();
+    // Get the offset of the HiddenGalaxySection relative to the viewport
+    const hiddenGalaxyTop = HiddenGalaxySection.getBoundingClientRect().top;
 
-      if (rect.top <= 500) {
-        window.removeEventListener("scroll", handleScroll);
+    // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
+    const topDistanceFromHiddenGalaxy =
+      (hiddenGalaxyTop + window.innerHeight * 0.2) / 10;
 
-        const dropTl = gsap.timeline();
+    const rect = vanishEl.getBoundingClientRect();
 
-        // Drop in
-        dropTl.fromTo(
-          letter,
-          { y: -500, opacity: 0 },
-          {
-            y: window.innerHeight * 0.02 - 200, // 20% from top
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out",
-          }
-        );
+    // // Get document-relative positions instead of viewport-relative
+    // const hiddenGalaxyTop = hiddenGalaxySection.offsetTop;
+    // const vanishElRect = vanishEl.getBoundingClientRect();
+    // const vanishElTop = vanishEl.offsetTop;
+    // const vanishElHeight = vanishEl.offsetHeight;
+    // // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
+    // const topDistanceFromHiddenGalaxy = window.innerHeight * 0.2;
+    // // Calculate the initial position relative to the document
+    // const initialY = -(
+    //   vanishElTop +
+    //   vanishElHeight +
+    //   topDistanceFromHiddenGalaxy
+    // );
 
-        // Bounce
-        dropTl.to(letter, {
-          y: window.innerHeight * 0.02 + 50,
-          duration: 0.6,
-          ease: "bounce.out",
-        });
+    // Initial position setup
+    gsap.set(letter, {
+      x: rect.left,
+      y: -(rect.bottom + topDistanceFromHiddenGalaxy),
+      z: 50,
+    });
 
-        // Expand circle from letter’s position
-        dropTl.set(circle, {
-          top: letter.offsetTop + letter.offsetHeight / 2,
-          left: letter.offsetLeft + letter.offsetWidth / 2,
-          xPercent: -50,
-          yPercent: -50,
-        });
+    // ScrollTrigger Timeline
+    const dropTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: vanishEl,
+        start: "top 20%",
+        end: "90% bottom",
+        toggleActions: "play none none none",
+        // markers: true,
+      },
+    });
 
-        dropTl.to(
-          circle,
-          {
-            scale: 20,
-            duration: 1.2,
-            ease: "power2.inOut",
-          },
-          "+=0.1"
-        );
+    console.log(
+      "From Hidden Galaxy",
+      -(rect.bottom + topDistanceFromHiddenGalaxy)
+    );
 
-        // Fade out letter as circle grows
-        dropTl.to(
-          letter,
-          {
-            opacity: 0,
-            duration: 0.6,
-          },
-          "-=1" // overlap with circle expansion
-        );
-
-        // After circle fill → switch to mask
-        dropTl.to(
-          section,
-          {
-            backgroundColor: "black",
-            color: "white",
-            duration: 0.8,
-            onComplete: () => setMaskActive(true),
-          },
-          "-=0.3"
-        );
+    // Drop animation
+    dropTl.fromTo(
+      letter,
+      { y: -(rect.bottom + topDistanceFromHiddenGalaxy), opacity: 0 },
+      {
+        y: topDistanceFromHiddenGalaxy,
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out",
       }
-    };
+    );
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Bounce animation
+    dropTl.to(letter, {
+      y: window.innerHeight * 0.02 + 50,
+      duration: 0.6,
+      ease: "bounce.out",
+    });
+
+    // Set circle position based on letter
+    dropTl.set(circle, {
+      top: letter.offsetTop + letter.offsetHeight / 2,
+      left: rect.left,
+    });
+
+    // Circle expansion
+    dropTl.to(
+      circle,
+      {
+        scale: 20,
+        duration: 1.2,
+        ease: "power2.inOut",
+      },
+      "+=0.1"
+    );
+
+    // Fade out the letter while the circle expands
+    dropTl.to(
+      letter,
+      {
+        opacity: 0,
+        duration: 0.6,
+      },
+      "-=1"
+    );
+
+    // Change background color after circle expansion
+    dropTl.to(
+      section,
+      {
+        backgroundColor: "black",
+        color: "white",
+        duration: 0.8,
+        onComplete: () => setMaskActive(true),
+      },
+      "-=0.3"
+    );
+
+    // Cleanup ScrollTrigger when component is unmounted
+    return () => {
+      dropTl.scrollTrigger?.kill();
+    };
   }, []);
 
   return (
-    <div ref={sectionRef} className="h-screen relative overflow-hidden">
+    <div
+      ref={sectionRef}
+      id="hidden-galaxy"
+      className="h-screen relative overflow-hidden"
+    >
       {/* Expanding circle */}
       <div
         ref={circleRef}
@@ -111,7 +155,7 @@ const SecondSection = () => {
       {/* E letter */}
       <h1
         ref={letterRef}
-        className="font-bold absolute right-20 opacity-0 text-7xl sm:text-8xl md:text-9xl lg:text-[13rem] z-10"
+        className="absolute font-bold opacity-0 text-7xl sm:text-8xl md:text-9xl lg:text-[13rem] z-10"
         style={{
           fontFamily: "Gunsan, Arial, sans-serif",
           color: toggle ? "black" : "white",
@@ -187,4 +231,4 @@ const SecondSection = () => {
   );
 };
 
-export default SecondSection;
+export default HiddenGalaxy;

@@ -1,6 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function VanishText() {
   const [visible, setVisible] = useState(true);
@@ -132,6 +136,53 @@ export default function VanishText() {
     }, 7000);
   };
 
+  useEffect(() => {
+    const dropTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#vanish-e",
+        start: "top 20%",
+        end: "90% bottom",
+        toggleActions: "play none none none",
+        // markers: true,
+      },
+    });
+
+    const vanishEl = document.querySelector("#vanish-e");
+    const HiddenGalaxySection = document.querySelector("#hidden-galaxy");
+    if (!HiddenGalaxySection || !vanishEl) return;
+
+    const rect = vanishEl.getBoundingClientRect();
+
+    // Get the offset of the HiddenGalaxySection relative to the viewport
+    const hiddenGalaxyTop = HiddenGalaxySection.getBoundingClientRect().top;
+
+    // Calculate the position for 20% of the viewport height from the top of the HiddenGalaxySection
+    const topDistanceFromHiddenGalaxy =
+      (hiddenGalaxyTop + window.innerHeight * 0.2) / 10;
+
+    console.log("From VanishText", rect.bottom + topDistanceFromHiddenGalaxy);
+
+    // Drop animation
+    dropTl.to("#vanish-e", {
+      y: rect.bottom + topDistanceFromHiddenGalaxy,
+      opacity: 1,
+      duration: 1,
+      ease: "power2.out",
+    });
+
+    // Bounce animation
+    dropTl.to("#vanish-e", {
+      y: rect.bottom + topDistanceFromHiddenGalaxy + 50,
+      duration: 0.6,
+      ease: "bounce.out",
+    });
+
+    // Cleanup ScrollTrigger when component is unmounted
+    return () => {
+      dropTl.scrollTrigger?.kill();
+    };
+  }, []);
+
   return (
     <div className="absolute inset-0 flex items-center justify-center min-h-screen overflow-hidden z-50">
       {visible && (
@@ -143,7 +194,10 @@ export default function VanishText() {
             }`}
           style={{ fontFamily: "Gunsan, Arial, sans-serif" }}
         >
-          Mech Drone
+          Mech Dron
+          <span id="vanish-e" className="inline-block">
+            E
+          </span>
         </h1>
       )}
       <canvas

@@ -142,7 +142,7 @@ export default function Scene({
     if (animationIndex === 4) {
       EntranceTl.to(droneRef.current.position, {
         x: 100,
-        y: -120,
+        y: -140,
         duration: 2,
         ease: "power1.inOut",
       });
