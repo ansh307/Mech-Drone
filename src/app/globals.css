@@ -7,21 +7,7 @@
   --font-lausanne-400: var(--font-lausanne-400), sans-serif;
   --font-gunsan: var(--font-gunsan), sans-serif;
 
-
-  --animate-shine: shine 5s linear infinite;
-
   --animate-bounce: bounce 0.3s ease-in-out;
-
-  @keyframes shine {
-    0% {
-      background-position: 100%
-    }
-
-    ,
-    100% {
-      background-position: -100%
-    }
-  }
 
   @keyframes bounce {
     0% {
