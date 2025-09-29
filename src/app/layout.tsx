@@ -46,11 +46,11 @@ export const metadata: Metadata = {
     title: "Mech Drone | The Unknown Mystery",
     description:
       "From Saturn's icy rings to uncharted cosmic expanses, Mech Drone explores the unknown with AI precision and dazzling maneuvers no human craft could achieve.",
-    url: "http://localhost:3000/", // replace with your actual domain
+    url: "https://mechdrone.netlify.app/", // replace with your actual domain
     siteName: "Mech Drone",
     images: [
       {
-        url: "http://localhost:3000/og-mechdrone.png", // replace with your OG image
+        url: "https://mechdrone.netlify.app/og-mechdrone.png", // replace with your OG image
         width: 1200,
         height: 630,
         alt: "Mech Drone drifting past Saturn's rings with a cosmic glow",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     title: "Mech Drone | The Unknown Mystery",
     description:
       "A mysterious cosmic explorer, mastering AI, gravity, and dazzling stunts. Mech Drone is more than a machine — it's the unknown in motion.",
-    images: ["http://localhost:3000/og-mechdrone.png"], // same OG image
+    images: ["https://mechdrone.netlify.app/og-mechdrone.png"], // same OG image
   },
 };
 
