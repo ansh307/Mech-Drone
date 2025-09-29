@@ -3,6 +3,8 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PerspectiveCamera, View } from "@react-three/drei";
+import { GiMagicLamp } from "react-icons/gi";
+
 import Scene from "./Scene";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,9 +25,14 @@ const Facts2 = () => {
       className="flex flex-col md:flex-row-reverse h-full bg-blue-500 text-white % z-10 ml-16 relative"
     >
       <button
-        className="mx-4 px-2 py-2 absolute top-10 right-10 z-50 font-lausanne-300 cursor-pointer bg-transparent text-white hover:-translate-y-1 hover:scale-105 transition-all duration-300 active:scale-90 active:translate-y-2 active:animate-bounce"
+        className="mx-4 px-2 py-2 absolute top-10 right-10 z-50 font-lausanne-300 cursor-pointer bg-transparent text-white 
+        hover:-translate-y-1 hover:scale-105 transition-all duration-300 
+        
+        group flex gap-2 items-center
+        "
         onClick={() => sceneRef.current?.changeTexture()}
       >
+        <GiMagicLamp className="group-hover:animate-bounceup w-6 h-6 mb-1" />
         Magic
       </button>
 

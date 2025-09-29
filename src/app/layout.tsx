@@ -24,6 +24,11 @@ export const Lausanne400 = localFont({
   variable: "--font-lausanne-400",
 });
 
+export const PressStart2P = localFont({
+  src: "../../public/fonts/PressStart2P/PressStart2P-Regular.ttf",
+  variable: "--font-pressstart2p",
+});
+
 export const metadata: Metadata = {
   title: "Mech Drone",
   description: "Its a Dusky Drone buddy ;)",
@@ -37,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${Gunsan.variable} ${Lausanne200.variable} ${Lausanne300.variable} ${Lausanne400.variable} antialiased bg-neutral-950`}
+        className={`${Gunsan.variable} ${Lausanne200.variable} ${Lausanne300.variable} ${Lausanne400.variable}  ${PressStart2P.variable} antialiased bg-neutral-950`}
       >
         <main>
           {children}

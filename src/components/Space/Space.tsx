@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "@/components/ui/Button";
 import TargetCursor from "@/components/ui/TargetCursor";
 import Particles from "@/components/ui/Particles";
+import GameOverlay from "@/components/Space/GameOverlay";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -143,13 +144,19 @@ const Space = () => {
 
   return (
     <div
-      className="h-screen bg-black text-white text-3xl overflow-hidden relative "
+      className="h-screen bg-black text-white text-3xl overflow-hidden relative  "
       ref={containerRef}
     >
       <TargetCursor
         spinDuration={2}
         hideDefaultCursor={true}
         containerRef={containerRef}
+      />
+
+      <GameOverlay
+        containerRef={containerRef}
+        duration={30}
+        imageSrc={["/alien.png", "/ufo.png", "/mimikyu.png"]}
       />
 
       <View className=" top-20 w-full h-full z-0">
@@ -163,7 +170,7 @@ const Space = () => {
         <PerspectiveCamera position={[0, 0, -150]} fov={30} makeDefault />
       </View>
 
-      <div className="absolute inset-0  h-[100%] w-[100%] z-10">
+      <div className="absolute inset-0  h-[100%] w-[100%] z-10 ">
         <Particles
           particleColors={["#ffffff", "#ffffff"]}
           particleCount={200}
@@ -173,11 +180,12 @@ const Space = () => {
           moveParticlesOnHover={false}
           alphaParticles={true}
           disableRotation={false}
+          className=""
         />
 
         {/* animation 1 */}
         <div
-          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-32 lg:right-32 w-96 "
+          className="absolute top-10 right-10 md:top-24 md:right-24 lg:top-32 lg:right-32 w-96"
           ref={textContainer1Ref}
         >
           <h2 className="font-lausanne-400 mb-4">File 01: The Beginning</h2>
